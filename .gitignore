@@ -1,0 +1,5 @@
+# .gitignore content
+.idea/
+node_modules/
+dist/
+*.log
