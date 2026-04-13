@@ -7,6 +7,7 @@ import {UserModule} from "src/users/user.module";
 import {AuthModule} from "src/auth/auth.module";
 import {BabyModule} from "src/baby/baby.module";
 import {LogsModule} from "src/logs/logs.module";
+import { AiModule } from './ai/ai.module';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal: true}),
@@ -23,7 +24,8 @@ import {LogsModule} from "src/logs/logs.module";
         UserModule,
         AuthModule,
         BabyModule,
-        LogsModule,]
+        LogsModule,
+        AiModule,]
     ,
     controllers: [AppController],
     providers: [AppService],
