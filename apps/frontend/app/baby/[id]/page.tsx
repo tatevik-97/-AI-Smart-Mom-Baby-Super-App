@@ -1,9 +1,11 @@
 'use client';
 
-import { use, useState } from 'react';
+import {use, useEffect, useState} from 'react';
 import { useRouter } from 'next/navigation';
 import { useLogs, useCreateLog, type Log } from '@/lib/hooks/useLogs';
 import { useAuthGuard } from '@/lib/useAuthGuard';
+import {io} from "socket.io-client";
+import { useQueryClient } from '@tanstack/react-query';
 
 const LOG_TYPES = [
     { value: 'sleep',   label: 'Sleep',   icon: '😴', color: '#8057d8', bg: '#f5f0ff', border: '#d9cbff' },
@@ -19,12 +21,15 @@ function timeAgo(date: string) {
     return `${Math.floor(diff / 86400)}d ago`;
 }
 
+const socket = io('http://localhost:3001');
+
 export default function BabyLogs({ params }: any) {
     useAuthGuard();
 
     const { id } = use(params);
     const babyId = Number(id);
 
+    const queryClient = useQueryClient();
     const { data: logs = [], isLoading, isError } = useLogs(babyId);
     const createLog = useCreateLog(babyId);
 
@@ -32,13 +37,23 @@ export default function BabyLogs({ params }: any) {
     const [value, setValue] = useState('');
     const router = useRouter();
 
+    useEffect(() => {
+        socket.on('logCreated', (newLog: Log) => {
+            queryClient.setQueryData<Log[]>(['logs', babyId], (prev = []) => [newLog, ...prev]);
+        });
+
+        return () => {
+            socket.off('logCreated');
+        };
+    }, [babyId, queryClient]);
+
     const addLog = async () => {
         if (!value.trim()) return;
         await createLog.mutateAsync({ type, value: value.trim(), babyId });
         setValue('');
     };
-
     const selected = LOG_TYPES.find(t => t.value === type)!;
+
 
     const grouped = logs.reduce<Record<string, Log[]>>((acc, log) => {
         const day = new Date(log.createdAt).toLocaleDateString('en-US', {
@@ -126,6 +141,7 @@ export default function BabyLogs({ params }: any) {
                                     {day}
                                 </p>
                                 <div className="flex flex-col gap-2">
+                                    {console.log(dayLogs)}
                                     {dayLogs.map(log => {
                                         const meta = LOG_TYPES.find(t => t.value === log.type)!;
                                         return (

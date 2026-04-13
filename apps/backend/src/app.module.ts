@@ -3,8 +3,10 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {ConfigModule} from '@nestjs/config';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {UsersModule} from "src/users/users.module";
+import {UserModule} from "src/users/user.module";
 import {AuthModule} from "src/auth/auth.module";
+import {BabyModule} from "src/baby/baby.module";
+import {LogsModule} from "src/logs/logs.module";
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal: true}),
@@ -18,8 +20,10 @@ import {AuthModule} from "src/auth/auth.module";
             autoLoadEntities: true,
             synchronize: true, // DEV ONLY
         }),
-        UsersModule,
-        AuthModule,]
+        UserModule,
+        AuthModule,
+        BabyModule,
+        LogsModule,]
     ,
     controllers: [AppController],
     providers: [AppService],
