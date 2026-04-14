@@ -15,7 +15,10 @@ async function bootstrap() {
     credentials: true,
     maxAge: 3600,
   });
-  await app.listen(process.env.PORT ?? 3001);
+  const port = process.env.PORT || 3001;
+  await app.listen(port, '0.0.0.0'); // '0.0.0.0' հասցեն կարևոր է Railway-ի համար
+
+  console.log(`Application is running on: ${port}`);
 }
 
 bootstrap();
