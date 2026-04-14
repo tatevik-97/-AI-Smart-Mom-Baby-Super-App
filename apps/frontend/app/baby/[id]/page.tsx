@@ -21,7 +21,7 @@ function timeAgo(date: string) {
     return `${Math.floor(diff / 86400)}d ago`;
 }
 
-const socket = io('http://localhost:3001');
+const socket = io(process.env.NEXT_PUBLIC_API_URL);
 
 export default function BabyLogs({ params }: { params: Promise<{ id: string }> }) {
     useAuthGuard();
