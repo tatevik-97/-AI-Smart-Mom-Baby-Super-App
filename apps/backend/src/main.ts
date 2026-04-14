@@ -3,8 +3,12 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3002')
+    .split(',')
+    .map((o) => o.trim());
+
   app.enableCors({
-    origin: true,
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
     allowedHeaders: [
       'Content-Type',
@@ -21,4 +25,4 @@ async function bootstrap() {
   console.log(`Application is running on: ${port}`);
 }
 
-bootstrap();
+void bootstrap();
