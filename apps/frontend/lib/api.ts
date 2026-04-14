@@ -1,6 +1,4 @@
-const API_URL = 'http://localhost:3001';
-// const API_URL = process.env.NEXT_PUBLIC_API_URL;
-// production-ում → Railway URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export class ApiError extends Error {
     constructor(public status: number, message: string) {
@@ -15,7 +13,7 @@ export const api = async (url: string, method = 'GET', body?: unknown) => {
         method,
         headers: {
             'Content-Type': 'application/json',
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...(token ? {Authorization: `Bearer ${token}`} : {}),
         },
         body: body ? JSON.stringify(body) : undefined,
     });
