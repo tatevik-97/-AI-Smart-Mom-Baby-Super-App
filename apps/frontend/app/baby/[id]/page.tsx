@@ -141,7 +141,6 @@ export default function BabyLogs({ params }: any) {
                                     {day}
                                 </p>
                                 <div className="flex flex-col gap-2">
-                                    {console.log(dayLogs)}
                                     {dayLogs.map(log => {
                                         const meta = LOG_TYPES.find(t => t.value === log.type)!;
                                         return (
