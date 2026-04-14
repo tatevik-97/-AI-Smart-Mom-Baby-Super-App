@@ -23,7 +23,7 @@ function timeAgo(date: string) {
 
 const socket = io('http://localhost:3001');
 
-export default function BabyLogs({ params }: any) {
+export default function BabyLogs({ params }: { params: Promise<{ id: string }> }) {
     useAuthGuard();
 
     const { id } = use(params);
