@@ -60,7 +60,7 @@ export default function Login() {
                             </label>
                             <input
                                 type="email"
-                                placeholder="hello@mommy.com"
+                                placeholder="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full px-4 py-3 rounded-2xl text-sm outline-none transition-all"
@@ -81,7 +81,7 @@ export default function Login() {
                             </label>
                             <input
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && login.mutate({ email, password })}
