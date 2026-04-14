@@ -6,7 +6,8 @@ async function bootstrap() {
   const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3002')
     .split(',')
     .map((o) => o.trim());
-
+  console.log(process.env.FRONTEND_URL);
+  console.log(allowedOrigins);
   app.enableCors({
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
