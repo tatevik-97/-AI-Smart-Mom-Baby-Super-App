@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BullModule } from '@nestjs/bullmq';
-import { UserModule } from 'src/users/user.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { BabyModule } from 'src/baby/baby.module';
-import { LogsModule } from 'src/logs/logs.module';
+import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
+import { BabyModule } from './baby/baby.module';
+import { LogsModule } from './logs/logs.module';
 import { AiModule } from './ai/ai.module';
 
 @Module({

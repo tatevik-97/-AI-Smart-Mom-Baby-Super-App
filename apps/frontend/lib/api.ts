@@ -1,4 +1,6 @@
 const API_URL = 'http://localhost:3001';
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// production-ում → Railway URL
 
 export class ApiError extends Error {
     constructor(public status: number, message: string) {
