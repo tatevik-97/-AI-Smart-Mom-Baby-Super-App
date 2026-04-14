@@ -7,6 +7,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3002',
       'https://ai-smart-mom-baby-super-app-fronten.vercel.app',
+      'https://ai-smart-mom-baby-super-app-fronten.vercel.app/',
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
     allowedHeaders: [
