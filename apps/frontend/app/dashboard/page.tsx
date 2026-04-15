@@ -160,6 +160,11 @@ export default function Dashboard() {
                                         style={{ background: 'linear-gradient(135deg, #f7306a, #8057d8)' }}>
                                         View logs
                                     </button>
+                                    <button onClick={() => router.push(`/chart/${baby.id}`)}
+                                        className="px-4 py-2 rounded-2xl text-xs font-semibold transition-all active:scale-95"
+                                        style={{ background: '#f5f0ff', color: '#8057d8', border: '1px solid #d9cbff' }}>
+                                        Growth
+                                    </button>
                                     <button onClick={() => setDeleteId(baby.id)}
                                         className="px-4 py-2 rounded-2xl text-xs font-medium transition-all active:scale-95"
                                         style={{ background: '#fff1f5', color: '#f7306a', border: '1px solid #ffc0d5' }}>

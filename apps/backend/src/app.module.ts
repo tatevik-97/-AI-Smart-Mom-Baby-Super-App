@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { BabyModule } from './baby/baby.module';
 import { LogsModule } from './logs/logs.module';
 import { AiModule } from './ai/ai.module';
+import { GrowthModule } from './growth/growth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AiModule } from './ai/ai.module';
     BabyModule,
     LogsModule,
     AiModule,
+    GrowthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
