@@ -177,11 +177,13 @@ export default function Dashboard() {
                     </p>
                     <div className="grid grid-cols-3 gap-3">
                         {[
-                            { icon: '🤱', label: 'Track feedings' },
-                            { icon: '😴', label: 'Log sleep' },
-                            { icon: '🧠', label: 'AI insights' },
+                            { icon: '🤱', label: 'Track feedings', onClick: undefined },
+                            { icon: '😴', label: 'Log sleep', onClick: undefined },
+                            { icon: '🧠', label: 'AI insights', onClick: () => router.push('/ai') },
                         ].map(tip => (
-                            <div key={tip.label} className="rounded-2xl p-4 text-center"
+                            <div key={tip.label}
+                                onClick={tip.onClick}
+                                className={`rounded-2xl p-4 text-center ${tip.onClick ? 'cursor-pointer active:scale-95 transition-all' : ''}`}
                                 style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(217,203,255,0.5)' }}>
                                 <div className="text-2xl mb-1">{tip.icon}</div>
                                 <p className="text-xs font-medium" style={{ color: '#8057d8' }}>{tip.label}</p>
