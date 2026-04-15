@@ -47,4 +47,13 @@ export class LogsService {
       relations: ['baby'],
     });
   }
+
+  getRecentLogs(userId: number): Promise<Log[]> {
+    return this.logRepo.find({
+      where: { baby: { owner: { id: userId } } },
+      relations: ['baby'],
+      order: { createdAt: 'DESC' },
+      take: 10,
+    });
+  }
 }

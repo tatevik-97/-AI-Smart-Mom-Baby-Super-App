@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { AiController } from './ai.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Log } from '../logs/log.entity';
+import { LogsModule } from '../logs/logs.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Log])],
+  imports: [LogsModule],
   providers: [AiService],
   controllers: [AiController],
 })

@@ -14,5 +14,6 @@ import { JobsModule } from 'src/jobs/jobs.module';
   ],
   providers: [LogsService, LogsGateway],
   controllers: [LogsController],
+  exports: [LogsService],
 })
 export class LogsModule {}
