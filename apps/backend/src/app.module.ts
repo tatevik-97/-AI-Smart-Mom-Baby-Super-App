@@ -15,17 +15,17 @@ import { AiModule } from './ai/ai.module';
     ConfigModule.forRoot({ isGlobal: true }),
     BullModule.forRoot({
       connection: {
-        host: 'localhost',
-        port: 6379,
+        url: process.env.REDIS_URL,
       },
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: process.env.DB_PASSWORD,
-      database: 'mom_baby',
+      // host: 'localhost',
+      // port: 5432,
+      // username: 'postgres',
+      // password: process.env.DB_PASSWORD,
+      // database: 'mom_baby',
+      url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true, // DEV ONLY
     }),
@@ -39,3 +39,4 @@ import { AiModule } from './ai/ai.module';
   providers: [AppService],
 })
 export class AppModule {}
+console.log('DB URL:', process.env.DATABASE_URL);
