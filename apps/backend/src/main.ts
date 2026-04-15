@@ -3,25 +3,21 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3002')
-    .split(',')
-    .map((o) => o.trim());
-  console.log(process.env.FRONTEND_URL);
-  console.log(allowedOrigins);
+
+  // 🔥 SIMPLE & WORKING CORS
   app.enableCors({
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-Requested-With',
-      'Accept',
+    origin: [
+      'http://localhost:3002',
+      'https://ai-smart-mom-baby-super-app-fronten.vercel.app',
+      'https://ai-smart-mom-baby-super-app-fronten.vercel.app/',
     ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: '*',
     credentials: true,
-    maxAge: 3600,
   });
+
   const port = process.env.PORT || 3001;
-  await app.listen(port, '0.0.0.0'); // '0.0.0.0' հասցեն կարևոր է Railway-ի համար
+  await app.listen(port, '0.0.0.0');
 
   console.log(`Application is running on: ${port}`);
 }
