@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useBabies, useCreateBaby, useDeleteBaby, type Baby } from '@/lib/hooks/useBabies';
+import { useBabies, useCreateBaby, useDeleteBaby, useUploadBabyPhoto, type Baby } from '@/lib/hooks/useBabies';
 import { useAuthGuard } from '@/lib/useAuthGuard';
 import { NotificationBell } from '@/components/NotificationBell';
 
@@ -27,6 +27,9 @@ export default function Dashboard() {
     const { data: babies = [], isLoading, isError } = useBabies();
     const createBaby = useCreateBaby();
     const deleteBaby = useDeleteBaby();
+    const uploadPhoto = useUploadBabyPhoto();
+    const photoInputRef = useRef<HTMLInputElement>(null);
+    const [uploadingId, setUploadingId] = useState<number | null>(null);
 
     const [showModal, setShowModal] = useState(false);
     const [form, setForm] = useState({ name: '', birthDate: '', photoUrl: '' });
@@ -142,7 +145,7 @@ export default function Dashboard() {
                                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 shadow-sm overflow-hidden"
                                     style={{ background: 'linear-gradient(135deg, #fff1f5, #f5f0ff)' }}>
                                     {baby.photoUrl
-                                        ? <img src={baby.photoUrl} alt={baby.name} className="w-full h-full object-cover" />
+                                        ? <img src={baby.photoUrl.startsWith('/') ? `${process.env.NEXT_PUBLIC_API_URL}${baby.photoUrl}` : baby.photoUrl} alt={baby.name} className="w-full h-full object-cover" />
                                         : BABY_AVATARS[i % BABY_AVATARS.length]}
                                 </div>
 
@@ -168,6 +171,13 @@ export default function Dashboard() {
                                         className="px-4 py-2 rounded-2xl text-xs font-semibold transition-all active:scale-95"
                                         style={{ background: '#f5f0ff', color: '#8057d8', border: '1px solid #d9cbff' }}>
                                         Growth
+                                    </button>
+                                    <button
+                                        onClick={() => { setUploadingId(baby.id); photoInputRef.current?.click(); }}
+                                        disabled={uploadPhoto.isPending && uploadingId === baby.id}
+                                        className="px-4 py-2 rounded-2xl text-xs font-medium transition-all active:scale-95 disabled:opacity-50"
+                                        style={{ background: '#fff7f0', color: '#ff9044', border: '1px solid #ffd8b5' }}>
+                                        {uploadPhoto.isPending && uploadingId === baby.id ? '...' : 'Photo'}
                                     </button>
                                     <button onClick={() => setDeleteId(baby.id)}
                                         className="px-4 py-2 rounded-2xl text-xs font-medium transition-all active:scale-95"
@@ -277,6 +287,22 @@ export default function Dashboard() {
                     </div>
                 </div>
             )}
+
+            {/* Hidden photo file input */}
+            <input
+                ref={photoInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async e => {
+                    const file = e.target.files?.[0];
+                    if (file && uploadingId !== null) {
+                        await uploadPhoto.mutateAsync({ id: uploadingId, file });
+                    }
+                    e.target.value = '';
+                    setUploadingId(null);
+                }}
+            />
 
             {/* Delete confirmation */}
             {deleteId !== null && (

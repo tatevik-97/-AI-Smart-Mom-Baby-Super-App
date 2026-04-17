@@ -25,6 +25,9 @@ export class Baby {
   @ManyToOne(() => User, (user) => user.babies, { onDelete: 'CASCADE' })
   owner: User;
 
+  @Column({ nullable: true })
+  photo: string;
+
   @OneToMany(() => Log, (log) => log.baby)
   logs: Log[];
 }
