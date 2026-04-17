@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBabies, useCreateBaby, useDeleteBaby, type Baby } from '@/lib/hooks/useBabies';
 import { useAuthGuard } from '@/lib/useAuthGuard';
+import { NotificationBell } from '@/components/NotificationBell';
 
 function getAge(birthDate: string) {
     const birth = new Date(birthDate);
@@ -80,11 +81,14 @@ export default function Dashboard() {
                         <p className="text-xs" style={{ color: '#9b7fa8' }}>Your family dashboard</p>
                     </div>
                 </div>
-                <button onClick={handleLogout}
-                    className="text-xs px-4 py-2 rounded-full font-medium transition-all active:scale-95"
-                    style={{ background: 'rgba(255,255,255,0.8)', color: '#9b7fa8', border: '1px solid #ffc0d5' }}>
-                    Sign out
-                </button>
+                <div className="flex items-center gap-2">
+                    <NotificationBell />
+                    <button onClick={handleLogout}
+                        className="text-xs px-4 py-2 rounded-full font-medium transition-all active:scale-95"
+                        style={{ background: 'rgba(255,255,255,0.8)', color: '#9b7fa8', border: '1px solid #ffc0d5' }}>
+                        Sign out
+                    </button>
+                </div>
             </header>
 
             <div className="relative max-w-2xl mx-auto">

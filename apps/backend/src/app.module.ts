@@ -10,7 +10,7 @@ import { BabyModule } from './baby/baby.module';
 import { LogsModule } from './logs/logs.module';
 import { AiModule } from './ai/ai.module';
 import { GrowthModule } from './growth/growth.module';
-import { NotificationModule } from 'src/notification/notification.module';
+import { NotificationModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { LogsService } from 'src/logs/logs.service';
 import { CreateLogDto } from 'src/logs/dto/create-log.dto';
@@ -9,8 +9,8 @@ export class LogsController {
   constructor(private logsService: LogsService) {}
 
   @Post()
-  create(@Body() dto: CreateLogDto) {
-    return this.logsService.create(dto);
+  create(@Req() req: { user: { id: number } }, @Body() dto: CreateLogDto) {
+    return this.logsService.create({ ...dto, userId: req.user.id });
   }
 
   @Get(':babyId')

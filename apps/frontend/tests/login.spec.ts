@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('login flow', async ({ page }) => {
-    await page.goto('http://localhost:3002/login');
+    await page.goto('http://localhost:3000/login');
 
     await page.fill('input[placeholder="email"]', 'mom@example.com');
     await page.fill('input[placeholder="password"]', '123456');
@@ -11,7 +11,7 @@ test('login flow', async ({ page }) => {
     await expect(page).toHaveURL(/dashboard/);
 });
 test('create log flow', async ({ page }) => {
-    await page.goto('http://localhost:3002/login');
+    await page.goto('http://localhost:3000/login');
 
     await page.fill('input[placeholder="email"]', 'mom@example.com');
     await page.fill('input[placeholder="password"]', '123456');

@@ -28,13 +28,10 @@ export class LogsService {
     });
     const saved = await this.logRepo.save(log);
 
-    // 🔥 ADD JOB
     await this.reminderQueue.add(
-      'feeding-reminder', // job name
-      { babyId: dto.babyId }, // data
-      {
-        delay: 5000, // 5 second
-      },
+      'feeding-reminder',
+      { babyId: dto.babyId, userId: dto.userId },
+      { delay: 5000 },
     );
 
     this.logsGateway.sendLogUpdate(saved);

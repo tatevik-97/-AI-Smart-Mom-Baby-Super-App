@@ -7,7 +7,7 @@ async function bootstrap() {
   // 🔥 SIMPLE & WORKING CORS
   app.enableCors({
     origin: [
-      'http://localhost:3002',
+      'http://localhost:3000',
       'https://ai-smart-mom-baby-super-app-fronten.vercel.app',
       'https://ai-smart-mom-baby-super-app-fronten.vercel.app/',
     ],
