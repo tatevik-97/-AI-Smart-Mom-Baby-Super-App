@@ -1,14 +1,21 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Processor('reminder-queue')
 export class ReminderProcessor extends WorkerHost {
-  async process(job: Job<any>) {
+  constructor(private notificationService: NotificationService) {
+    super();
+  }
+
+  async process(job: Job<{ userId: number; babyId: number }>) {
     console.log('Job received:', job.name);
 
     if (job.name === 'feeding-reminder') {
-      const { babyId } = job.data;
-      console.log(`⏰ Reminder: Feed baby ${babyId}`);
+      await this.notificationService.create(
+        job.data.userId,
+        'Time for next feeding 🍼',
+      );
     }
   }
 }
