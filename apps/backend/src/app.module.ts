@@ -11,6 +11,7 @@ import { LogsModule } from './logs/logs.module';
 import { AiModule } from './ai/ai.module';
 import { GrowthModule } from './growth/growth.module';
 import { NotificationModule } from 'src/notifications/notifications.module';
+import { ReportsModule } from 'src/reports/reports.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { NotificationModule } from 'src/notifications/notifications.module';
     AiModule,
     GrowthModule,
     NotificationModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useBabies, useCreateBaby, useDeleteBaby, useUploadBabyPhoto, type Baby } from '@/lib/hooks/useBabies';
+import { useBabies, useCreateBaby, useDeleteBaby, useUploadBabyPhoto, useDownloadBabyReport, type Baby } from '@/lib/hooks/useBabies';
 import { useAuthGuard } from '@/lib/useAuthGuard';
 import { NotificationBell } from '@/components/NotificationBell';
 
@@ -28,6 +28,7 @@ export default function Dashboard() {
     const createBaby = useCreateBaby();
     const deleteBaby = useDeleteBaby();
     const uploadPhoto = useUploadBabyPhoto();
+    const downloadReport = useDownloadBabyReport();
     const photoInputRef = useRef<HTMLInputElement>(null);
     const [uploadingId, setUploadingId] = useState<number | null>(null);
 
@@ -178,6 +179,13 @@ export default function Dashboard() {
                                         className="px-4 py-2 rounded-2xl text-xs font-medium transition-all active:scale-95 disabled:opacity-50"
                                         style={{ background: '#fff7f0', color: '#ff9044', border: '1px solid #ffd8b5' }}>
                                         {uploadPhoto.isPending && uploadingId === baby.id ? '...' : 'Photo'}
+                                    </button>
+                                    <button
+                                        onClick={() => downloadReport.mutate({ id: baby.id, name: baby.name })}
+                                        disabled={downloadReport.isPending}
+                                        className="px-4 py-2 rounded-2xl text-xs font-medium transition-all active:scale-95 disabled:opacity-50"
+                                        style={{ background: '#f0fff4', color: '#2e7d52', border: '1px solid #a8d5b5' }}>
+                                        {downloadReport.isPending ? '...' : 'PDF ↓'}
                                     </button>
                                     <button onClick={() => setDeleteId(baby.id)}
                                         className="px-4 py-2 rounded-2xl text-xs font-medium transition-all active:scale-95"

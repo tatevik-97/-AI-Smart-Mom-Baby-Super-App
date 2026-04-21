@@ -37,6 +37,25 @@ export function useDeleteBaby() {
     });
 }
 
+export function useDownloadBabyReport() {
+    return useMutation({
+        mutationFn: async ({ id, name }: { id: number; name: string }) => {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reports/${id}/report`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : {},
+            });
+            if (!res.ok) throw new Error('Failed to download report');
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}-report.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+        },
+    });
+}
+
 export function useUploadBabyPhoto() {
     const queryClient = useQueryClient();
     return useMutation({

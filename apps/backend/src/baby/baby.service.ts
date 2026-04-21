@@ -35,6 +35,10 @@ export class BabyService {
     if (!baby) throw new Error('Baby not found');
     return this.babyRepo.remove(baby);
   }
+  findById(id: number) {
+    return this.babyRepo.findOneBy({ id });
+  }
+
   async updatePhoto(id: number, filename: string) {
     const baby = await this.babyRepo.findOneBy({ id });
     if (!baby) throw new NotFoundException('Baby not found');

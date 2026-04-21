@@ -8,5 +8,6 @@ import { GrowthController } from 'src/growth/growth.controller';
   imports: [TypeOrmModule.forFeature([Growth])],
   providers: [GrowthService],
   controllers: [GrowthController],
+  exports: [GrowthService],
 })
 export class GrowthModule {}
