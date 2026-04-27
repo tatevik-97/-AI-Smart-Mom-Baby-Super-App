@@ -8,7 +8,7 @@ import {
 import { User } from 'src/users/user.entity';
 
 @Entity()
-export class Notification {
+export class NotificationEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
