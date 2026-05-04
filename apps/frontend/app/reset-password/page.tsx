@@ -14,9 +14,9 @@ export default function ResetPasswordPage({ searchParams }: { searchParams: { to
                      style={{background: 'radial-gradient(circle, #d9cbff, transparent)'}}/>
             </div>
 
-            <Suspense fallback={null}>
-                <ResetPasswordForm  initialToken={searchParams.token}/>
-            </Suspense>
+            {/*<Suspense fallback={null}>*/}
+            {/*    <ResetPasswordForm  initialToken={searchParams.token}/>*/}
+            {/*</Suspense>*/}
         </main>
     );
 }
