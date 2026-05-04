@@ -15,12 +15,16 @@ import { CreateBabyDto } from 'src/baby/dto/create-baby.dto';
 import { UpdateBabyDto } from 'src/baby/dto/update-baby.dto';
 import { BabyService } from 'src/baby/baby.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from 'src/users/role.enum';
 import { Request } from 'express';
 import { User } from 'src/users/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('babies')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.MOM, UserRole.ADMIN)
 export class BabyController {
   constructor(private babyService: BabyService) {}
 

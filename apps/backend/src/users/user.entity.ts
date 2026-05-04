@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Baby } from 'src/baby/baby.entity';
+import { UserRole } from 'src/users/role.enum';
 
 @Entity()
 export class User {
@@ -12,8 +13,12 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: 'mom' }) // roles: mom | admin
-  role: string;
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.MOM,
+  })
+  role: UserRole;
 
   @Column({ type: 'varchar', nullable: true })
   resetToken: string | null;

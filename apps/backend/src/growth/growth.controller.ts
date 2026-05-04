@@ -1,8 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { GrowthService } from 'src/growth/growth.service';
 import { CreateGrowthDto } from 'src/growth/dto/create-growth.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from 'src/users/role.enum';
 
 @Controller('growth')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.MOM, UserRole.ADMIN)
 export class GrowthController {
   constructor(private growthService: GrowthService) {}
 
