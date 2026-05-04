@@ -24,3 +24,21 @@ export function useRegister() {
         },
     });
 }
+
+export function useForgotPassword() {
+    return useMutation({
+        mutationFn: ({ email }: { email: string }) =>
+            api('/auth/forgot-password', 'POST', { email }),
+    });
+}
+
+export function useResetPassword() {
+    const router = useRouter();
+    return useMutation({
+        mutationFn: ({ token, newPassword }: { token: string; newPassword: string }) =>
+            api('/auth/reset-password', 'POST', { token, newPassword }),
+        onSuccess: () => {
+            router.push('/login');
+        },
+    });
+}

@@ -76,9 +76,14 @@ export default function Login() {
 
                         {/* Password */}
                         <div>
-                            <label className="block text-sm font-medium mb-1.5" style={{ color: '#5c3d52' }}>
-                                Password
-                            </label>
+                            <div className="flex items-center justify-between mb-1.5">
+                                <label className="block text-sm font-medium" style={{ color: '#5c3d52' }}>
+                                    Password
+                                </label>
+                                <a href="/forgot-password" className="text-xs font-medium" style={{ color: '#f7306a' }}>
+                                    Forgot password?
+                                </a>
+                            </div>
                             <input
                                 type="password"
                                 placeholder="password"

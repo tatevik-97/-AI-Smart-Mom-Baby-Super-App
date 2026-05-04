@@ -15,6 +15,12 @@ export class User {
   @Column({ default: 'mom' }) // roles: mom | admin
   role: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  resetToken: string | null;
+
+  @Column({ nullable: true, type: 'timestamp' })
+  resetTokenExpires: Date | null;
+
   @OneToMany(() => Baby, (baby) => baby.owner, { cascade: true })
   babies: Baby[];
 }
