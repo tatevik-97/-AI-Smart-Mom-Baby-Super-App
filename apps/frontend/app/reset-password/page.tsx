@@ -1,8 +1,13 @@
 import { Suspense } from 'react';
-export const dynamic = "force-dynamic";
-
 import { ResetPasswordForm } from './reset-password-form';
-export default function ResetPasswordPage({ searchParams }: { searchParams: { token?: string } }) {
+
+export default async function ResetPasswordPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ token?: string }>;
+}) {
+    const { token } = await searchParams;
+
     return (
         <main className="min-h-screen flex items-center justify-center px-4"
               style={{background: 'linear-gradient(135deg, #fff1f5 0%, #f5f0ff 50%, #fff7f0 100%)'}}>
@@ -14,9 +19,9 @@ export default function ResetPasswordPage({ searchParams }: { searchParams: { to
                      style={{background: 'radial-gradient(circle, #d9cbff, transparent)'}}/>
             </div>
 
-            {/*<Suspense fallback={null}>*/}
-            {/*    <ResetPasswordForm  initialToken={searchParams.token}/>*/}
-            {/*</Suspense>*/}
+            <Suspense fallback={null}>
+                <ResetPasswordForm initialToken={token} />
+            </Suspense>
         </main>
     );
 }
