@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserService } from 'src/users/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -7,8 +11,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { MailService } from 'src/mail/mail.service';
+import { UserRole } from 'src/users/role.enum';
 
 type ValidatedUser = Omit<User, 'password'>;
+
+interface JwtPayload {
+  sub: number;
+  email: string;
+  role: UserRole;
+}
 
 @Injectable()
 export class AuthService {
@@ -32,9 +43,50 @@ export class AuthService {
     return null;
   }
 
-  login(user: ValidatedUser): { access_token: string } {
-    const payload = { email: user.email, sub: user.id, role: user.role };
-    return { access_token: this.jwtService.sign(payload) };
+  async login(
+    user: ValidatedUser,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    const payload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+
+    await this.usersRepository.update(user.id, {
+      refreshToken: await bcrypt.hash(refreshToken, 10),
+    });
+
+    return { accessToken, refreshToken };
+  }
+
+  async refresh(refreshToken: string): Promise<{ accessToken: string }> {
+    let payload: JwtPayload;
+    try {
+      payload = this.jwtService.verify<JwtPayload>(refreshToken);
+    } catch {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+
+    const user = await this.usersRepository.findOne({
+      where: { id: payload.sub },
+    });
+
+    if (!user?.refreshToken) throw new UnauthorizedException();
+
+    const isMatch = await bcrypt.compare(refreshToken, user.refreshToken);
+    if (!isMatch) throw new UnauthorizedException();
+
+    const newPayload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
+    const accessToken = this.jwtService.sign(newPayload, { expiresIn: '15m' });
+
+    return { accessToken };
   }
 
   async forgotPassword(email: string): Promise<void> {

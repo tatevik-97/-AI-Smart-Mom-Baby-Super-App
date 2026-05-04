@@ -7,8 +7,9 @@ export function useLogin() {
     return useMutation({
         mutationFn: ({ email, password }: { email: string; password: string }) =>
             api('/auth/login', 'POST', { email, password }),
-        onSuccess: (data) => {
-            localStorage.setItem('token', data.access_token);
+        onSuccess: (data: { accessToken: string; refreshToken: string }) => {
+            localStorage.setItem('token', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
             router.push('/dashboard');
         },
     });

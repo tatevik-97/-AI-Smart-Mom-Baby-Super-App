@@ -26,6 +26,9 @@ export class User {
   @Column({ nullable: true, type: 'timestamp' })
   resetTokenExpires: Date | null;
 
+  @Column({ nullable: true })
+  refreshToken: string;
+
   @OneToMany(() => Baby, (baby) => baby.owner, { cascade: true })
   babies: Baby[];
 }
